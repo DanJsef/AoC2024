@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/DanJsef/AoC2024/internal/day1"
+	"github.com/DanJsef/AoC2024/internal/day01"
 )
 
 func main() {
@@ -27,7 +27,7 @@ func main() {
 
 	switch int(dayIdx) {
 	case 1:
-		day1.Day1(reader)
+		day01.Run(reader)
 	default:
 		fmt.Println("Invalid day input")
 	}
