@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/DanJsef/AoC2024/internal/day01"
+	"github.com/DanJsef/AoC2024/internal/day02"
 )
 
 func main() {
@@ -28,6 +29,8 @@ func main() {
 	switch int(dayIdx) {
 	case 1:
 		day01.Run(reader)
+	case 2:
+		day02.Run(reader)
 	default:
 		fmt.Println("Invalid day input")
 	}
