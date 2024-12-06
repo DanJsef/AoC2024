@@ -16,7 +16,6 @@ type node struct {
 }
 
 func (n *node) visit(g *ruleGraph, acc *[]int) {
-	n.visited = true
 	if n.done {
 		return
 	}
@@ -25,6 +24,8 @@ func (n *node) visit(g *ruleGraph, acc *[]int) {
 		fmt.Println("Well, the assumption that the graph is a DAG was wrong xD")
 		return
 	}
+
+	n.visited = true
 
 	for _, adj := range n.adjacentNodes {
 		if adjNode, ok := (*g)[adj]; !ok {
@@ -40,23 +41,54 @@ func (n *node) visit(g *ruleGraph, acc *[]int) {
 	n.done = true
 }
 
+func makePageFilter(page []int) map[int]bool {
+	filter := make(map[int]bool)
+	for _, val := range page {
+		filter[val] = true
+	}
+	return filter
+}
+
 type ruleGraph map[int]*node
 
-func (g *ruleGraph) getOrdering() pageOrdering {
+func (g *ruleGraph) filterGraph(filter map[int]bool) ruleGraph {
+
+	filteredGraph := make(ruleGraph)
+
+	for _, n := range *g {
+		if _, ok := filter[n.value]; !ok {
+			continue
+		}
+
+		newAdj := []int{}
+		for _, adj := range n.adjacentNodes {
+			if _, ok := filter[adj]; ok {
+				newAdj = append(newAdj, adj)
+			}
+		}
+		filteredGraph[n.value] = &node{value: n.value, adjacentNodes: newAdj}
+	}
+
+	return filteredGraph
+}
+
+func (g ruleGraph) getOrdering(page []int) pageOrdering {
+
+	filter := makePageFilter(page)
+
+	fg := g.filterGraph(filter)
 
 	pageOrdering := make(pageOrdering)
 
 	orderAcc := []int{}
 
-	for _, node := range *g {
-		node.visit(g, &orderAcc)
+	for _, node := range fg {
+		node.visit(&fg, &orderAcc)
 	}
 
 	for idx, val := range orderAcc {
 		pageOrdering[val] = len(orderAcc) - idx - 1
 	}
-
-	fmt.Println(pageOrdering)
 
 	return pageOrdering
 }
@@ -134,15 +166,22 @@ func parseInput() (ruleGraph, pageList) {
 func Run() {
 	graph, pages := parseInput()
 
-	ordering := graph.getOrdering()
-
 	partOne := 0
+	partTwo := 0
 
 	for _, page := range pages {
+		ordering := graph.getOrdering(page)
 		if val, ok := ordering.checkPage(page); ok {
 			partOne += val
+		} else {
+			for value, order := range ordering {
+				if order == len(ordering)/2 {
+					partTwo += value
+				}
+			}
 		}
 	}
 
 	fmt.Println("Part one:", partOne)
+	fmt.Println("Part two:", partTwo)
 }
