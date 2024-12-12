@@ -38,3 +38,16 @@ func (s *Stack[T]) Peak() (T, bool) {
 func (s *Stack[T]) Len() int {
 	return s.count
 }
+
+type Position struct {
+	X int
+	Y int
+}
+
+func (p Position) Add(p2 Position) Position {
+	return Position{X: p.X + p2.X, Y: p.Y + p2.Y}
+}
+
+func (p Position) Sub(p2 Position) Position {
+	return Position{X: p.X - p2.X, Y: p.Y - p2.Y}
+}
