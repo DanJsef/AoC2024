@@ -51,3 +51,17 @@ func (p Position) Add(p2 Position) Position {
 func (p Position) Sub(p2 Position) Position {
 	return Position{X: p.X - p2.X, Y: p.Y - p2.Y}
 }
+
+func (p Position) AddWrap(p2 Position, width int, height int) Position {
+	newPos := Position{X: (p.X + p2.X) % width, Y: (p.Y + p2.Y) % height}
+
+	if newPos.X < 0 {
+		newPos.X += width
+	}
+
+	if newPos.Y < 0 {
+		newPos.Y += height
+	}
+
+	return newPos
+}
