@@ -65,3 +65,11 @@ func (p Position) AddWrap(p2 Position, width int, height int) Position {
 
 	return newPos
 }
+
+func (p Position) RotateClockwise() Position {
+	return Position{X: -p.Y, Y: p.X}
+}
+
+func (p Position) RotateCounterClockwise() Position {
+	return Position{X: p.Y, Y: -p.X}
+}
