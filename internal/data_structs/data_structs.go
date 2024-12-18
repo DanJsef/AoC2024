@@ -39,6 +39,35 @@ func (s *Stack[T]) Len() int {
 	return s.count
 }
 
+type Queue[T any] struct {
+	start *node[T]
+	end   *node[T]
+	count int
+}
+
+func (q *Queue[T]) Enqueue(value T) {
+	newNode := &node[T]{value: value}
+	if q.count == 0 {
+		q.start = newNode
+		q.end = newNode
+	} else {
+		q.end.next = newNode
+		q.end = newNode
+	}
+	q.count++
+}
+
+func (q *Queue[T]) Dequeue() (T, bool) {
+	if q.count == 0 {
+		var empty T
+		return empty, false
+	}
+	value := q.start.value
+	q.start = q.start.next
+	q.count--
+	return value, true
+}
+
 type Position struct {
 	X int
 	Y int
@@ -72,4 +101,8 @@ func (p Position) RotateClockwise() Position {
 
 func (p Position) RotateCounterClockwise() Position {
 	return Position{X: p.Y, Y: -p.X}
+}
+
+func (p Position) IsWithinBounds(width int, height int) bool {
+	return p.X >= 0 && p.X < width && p.Y >= 0 && p.Y < height
 }
