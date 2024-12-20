@@ -1,5 +1,7 @@
 package datastructs
 
+import "math"
+
 type node[T any] struct {
 	next  *node[T]
 	value T
@@ -105,4 +107,8 @@ func (p Position) RotateCounterClockwise() Position {
 
 func (p Position) IsWithinBounds(width int, height int) bool {
 	return p.X >= 0 && p.X < width && p.Y >= 0 && p.Y < height
+}
+
+func (p Position) MahattanDistance(p2 Position) int {
+	return int(math.Abs(float64(p.X-p2.X)) + math.Abs(float64(p.Y-p2.Y)))
 }
