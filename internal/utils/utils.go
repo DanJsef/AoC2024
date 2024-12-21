@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"math"
 	"regexp"
 	"strconv"
 )
@@ -20,4 +21,38 @@ func ExtractNumbers(s string) []int {
 	}
 
 	return numbers
+}
+
+func StringCombinations(arr1, arr2 []string, delimeter string) []string {
+	acc := []string{}
+
+	for _, s1 := range arr1 {
+		for _, s2 := range arr2 {
+			acc = append(acc, s1+delimeter+s2)
+		}
+	}
+
+	return acc
+}
+
+func KeepShortestStrings(strings []string) []string {
+	if len(strings) == 0 {
+		return strings
+	}
+
+	shortestLength := math.MaxInt32
+	for _, str := range strings {
+		if len(str) < shortestLength {
+			shortestLength = len(str)
+		}
+	}
+
+	result := []string{}
+	for _, str := range strings {
+		if len(str) == shortestLength {
+			result = append(result, str)
+		}
+	}
+
+	return result
 }
