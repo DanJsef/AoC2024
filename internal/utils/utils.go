@@ -56,3 +56,37 @@ func KeepShortestStrings(strings []string) []string {
 
 	return result
 }
+
+func IntersectSlices[T comparable](slice1, slice2 []T) []T {
+	m := make(map[T]bool)
+	intersection := []T{}
+
+	for _, item := range slice1 {
+		m[item] = true
+	}
+
+	for _, item := range slice2 {
+		if m[item] {
+			intersection = append(intersection, item)
+		}
+	}
+
+	return intersection
+}
+
+func RemoveFromSlice[T comparable](slice []T, item T) []T {
+	for i, v := range slice {
+		if v == item {
+			return append(slice[:i], slice[i+1:]...)
+		}
+	}
+	return slice
+}
+
+func GetMapKeys[T comparable, R any](m map[T]R) []T {
+	keys := make([]T, 0, len(m))
+	for k := range m {
+		keys = append(keys, k)
+	}
+	return keys
+}
