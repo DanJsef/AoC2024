@@ -31,6 +31,7 @@ import (
 	"github.com/DanJsef/AoC2024/internal/day22"
 	"github.com/DanJsef/AoC2024/internal/day23"
 	"github.com/DanJsef/AoC2024/internal/day24"
+	"github.com/DanJsef/AoC2024/internal/day25"
 )
 
 func main() {
@@ -97,6 +98,8 @@ func main() {
 		day23.Run()
 	case 24:
 		day24.Run()
+	case 25:
+		day25.Run()
 	default:
 		fmt.Println("Invalid day input")
 	}
